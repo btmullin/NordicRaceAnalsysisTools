@@ -1,0 +1,73 @@
+/* formating tables */
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+	width: 100%;
+	margin-top: 10px;
+}
+
+th {
+	text-align: center;
+	background-color: #1f8dd6;
+	color: white;
+}
+
+th, td {
+	padding: 3px;
+}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+tr:hover {
+	background-color: #d5d5d5;
+}
+
+td.racerid, td.eventid {
+	text-align: center;
+}
+
+tr.divisor {
+	border-top: solid 10px #1f8dd6;
+}
+
+
+/* defining a style of a box with a border */
+.l-box {
+	padding: 5px;
+}
+
+/* navigation selected page styling */
+#nrat-home .nrat-home a,
+#nrat-viewevents .nrat-viewevents a,
+#nrat-viewresults .nrat-viewresults a,
+#nrat-viewskier .nrat-viewskier a,
+#nrat-compareraces .nrat-compareraces a,
+#nrat-compareskiers .nrat-compareskiers a,
+#nrat-birkiepredictor .nrat-birkiepredictor a,
+#nrat-vitalstats .nrat-vitalstats a,
+#nrat-contact .nrat-contact a,
+#nrat-elmcreekseries-2019 .nrat-elmcreekseries-2019 a,
+#nrat-elmcreekseries-2020 .nrat-elmcreekseries-2020 a {
+    color:#33348e;
+    background-color:#fff;
+   /* pointer-events:none;*/
+}
+
+/* Trying to figure out a side bar
+ * Probably need to look at floating multiple things to the left??
+ */
+.container {
+	display: flex;
+}
+.sidebar {
+	width: 140px;
+    border-left: 1px solid #eee;
+}
