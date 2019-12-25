@@ -48,7 +48,7 @@
 					<ul>
 						<li>Use this to gauge how you might do in this year's Birkie</li>
 						<li>This uses the race comparison tool to review your past two years
-							of results against the most recent Birkie ('16 unfortunately).</li>
+							of results against the most recent Birkie ('19).</li>
 					</ul>
 					<li><b>Skier Results Summary</b></li>
 					<ul>
