@@ -132,7 +132,8 @@
 						$EventID1 = $_REQUEST["eid1"];
 						$EventID2 = $_REQUEST["eid2"];
 						
-						if ($_REQUEST["PBLimit"] == "")
+						if (!isset($_POST["PBLimit"]) ||
+						    $_REQUEST["PBLimit"] == "")
 						{
 							$PBLimit = 40;
 						}
