@@ -407,6 +407,7 @@ function LogActivity($parms = null)
 	if ($handle)
 	{
 		fwrite($handle, strftime("%Y-%m-%d %H:%M:%S, "));
+		fwrite($handle, "$_SERVER['HTTP_USER_AGENT'], ");
 		$backtrace = debug_backtrace();
 		fwrite($handle, $backtrace[0]["file"]);
 		if ($parms != null)
