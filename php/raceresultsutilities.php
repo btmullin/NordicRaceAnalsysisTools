@@ -459,6 +459,10 @@ function LinearRegressionRaceCompare($e1, $e2, $limit, $rid = null)
 	
 	// Find the results within the limit
 	$result = $mysqli->query($q);
+	if (!$result)
+	{
+		error_log("No common results in limit for $e1 and $e2");
+	}
 	$x_inc = array();
 	$y_inc = array();
 	while ($row = $result->fetch_array())
