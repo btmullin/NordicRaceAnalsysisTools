@@ -64,8 +64,7 @@
 						<label for="race1">Event 1</label>
 						<select id="race1" name='id1'>
 							<?php
-								$mysqli = OpenRaceResultsDatabase();
-								$result = $mysqli->query('SELECT * FROM EventView');
+								$result = RaceResultsQuery('SELECT * FROM EventView');
 								while ($row = $result->fetch_array())
 								{
 									$id = $row["EventID"];
@@ -80,7 +79,7 @@
 						<label for="race2">Event 2</label>
 						<select id="race2" name='id2'>
 							<?php
-								$result = $mysqli->query('SELECT * FROM EventView');
+								$result = RaceResultsQuery('SELECT * FROM EventView');
 								while ($row = $result->fetch_array())
 								{
 									$id = $row["EventID"];
@@ -146,20 +145,18 @@
 						$LN = $_REQUEST["LN"];
 					}
 					
-					$mysqli = OpenRaceResultsDatabase();
-
 					// Get the event names
-					$result = $mysqli->query("SELECT FullName FROM EventView WHERE EventID=$EventID1");
+					$result = RaceResultsQuery("SELECT FullName FROM EventView WHERE EventID=$EventID1");
 					$row = $result->fetch_array();
 					$EventName1 = $row["FullName"];
-					$result = $mysqli->query("SELECT FullName FROM EventView WHERE EventID=$EventID2");
+					$result = RaceResultsQuery("SELECT FullName FROM EventView WHERE EventID=$EventID2");
 					$row = $result->fetch_array();
 					$EventName2 = $row["FullName"];
 
 					// Get the winning times to use in calculating the percent back
-					$result = $mysqli->query("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$EventID1");
+					$result = RaceResultsQuery("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$EventID1");
 					$min_time1 = $result->fetch_assoc()["WinningTime"];
-					$result = $mysqli->query("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$EventID2");
+					$result = RaceResultsQuery("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$EventID2");
 					$min_time2 = $result->fetch_assoc()["WinningTime"];
 					$min_time1_string = gmdate("H:i:s",$min_time1);
 					$min_time2_string = gmdate("H:i:s",$min_time2);
@@ -190,7 +187,7 @@
 						{
 							$q .= "LastName=\"$LN\" ";
 						}
-						$result = $mysqli->query($q);
+						$result = RaceResultsQuery($q);
 						$RacerMatches = $result->num_rows;
 						if ($RacerMatches == 1)
 						{
@@ -199,7 +196,7 @@
 							
 							// Find the racers time in the events
 							$q = "SELECT TimeInSec FROM Result WHERE EventID=$EventID1 AND RacerID=$RacerID";
-							$result = $mysqli->query($q);
+							$result = RaceResultsQuery($q);
 							if ($result->num_rows == 1)
 							{
 								$row = $result->fetch_assoc();
@@ -208,7 +205,7 @@
 							}
 							
 							$q = "SELECT TimeInSec FROM Result WHERE EventID=$EventID2 AND RacerID=$RacerID";
-							$result = $mysqli->query($q);
+							$result = RaceResultsQuery($q);
 							if ($result->num_rows == 1)
 							{
 								$row = $result->fetch_assoc();
@@ -220,11 +217,6 @@
 					
 					LogActivity([$EventID1, $EventID2, $PBLimit, $FN, $LN, $RacerID]);
 					
-					// btm - having some trouble with the following query losing connection to the database
-					// going to try closing the connection and reopening it here
-					$mysqli->close();
-					$mysqli = OpenRaceResultsDatabase();
-
 					// Do the linear regression on the common racers that are within the limit
 					$q = "SELECT Racer.FirstName, Racer.LastName, r1.TimeInSec as \"Race 1 Time\", r2.TimeInSec as \"Race 2 Time\"
 							FROM Racer, Result r1, Result r2
@@ -232,10 +224,10 @@
 							LIMIT 1000";
 					
 					// Find the results within the limit
-					$result = $mysqli->query($q);
+					$result = RaceResultsQuery($q);
 					if ($result === FALSE)
 					{
-						echo $mysqli->error;
+						echo "Something went wrong in compare races.php";
 						exit();
 					}
 					$x_inc = array();
@@ -282,7 +274,7 @@
 							WHERE r1.EventID=$EventID1 AND r2.EventID=$EventID2 AND r1.RacerID=r2.RacerID AND Racer.RacerID=r1.RacerID
 							ORDER BY r1.TimeInSec
 							LIMIT 1000";
-					$result = $mysqli->query($q);
+					$result = RaceResultsQuery($q);
 					
 					echo "<table border=\"1\">";
 					//header

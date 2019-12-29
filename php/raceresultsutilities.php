@@ -42,6 +42,15 @@ function OpenRaceResultsDatabase()
 	return $mysqli;
 }
 
+// This function does a query and manages open and closing the db nicely
+function RaceResultsQuery($query)
+{
+	$mysqli = OpenRaceResultsDatabase();
+	$result = $mysqli->query($query);
+	$mysqli->close();
+	return $result;
+}
+
 
 // This function outputs a mysql result to a table including header
 function ResultToTable($data)
@@ -319,10 +328,7 @@ function linear_regression($x, $y) {
  * @returns nothing
  */
 function raceresultstable($event_id) {
-	// Open the database
-	$mysqli = OpenRaceResultsDatabase();
-
-	$result = $mysqli->query("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$event_id");
+	$result = RaceResultsQuery("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$event_id");
 	$min_time = $result->fetch_assoc()["WinningTime"];
 	// Build the race results query
 	$query = 'SELECT @r := @r+1 AS Place,
@@ -335,7 +341,7 @@ function raceresultstable($event_id) {
 						  FORMAT(((Result.TimeInSec-'.$min_time.')/'.$min_time.'*100),2) AS "% Back"
 				   FROM Racer INNER JOIN Result ON Racer.RacerID = Result.RacerId WHERE Result.EventID='.$event_id.' ORDER BY Result.TimeInSec)z,(select @r:=0)y';
 
-   $result = $mysqli->query($query);
+   $result = RaceResultsQuery($query);
    
 	if ($result)
 	{
@@ -438,9 +444,8 @@ function LinearRegressionRaceCompare($e1, $e2, $limit, $rid = null)
 		if ($rid != null)
 		{
 			// Find the racers time in the events
-			$mysqli = OpenRaceResultsDatabase();
 			$q = "SELECT TimeInSec FROM Result WHERE EventID=$e1 AND RacerID=$rid";
-			$result = $mysqli->query($q);
+			$result = RaceResultsQuery($q);
 			if ($result->num_rows == 1)
 			{
 				$row = $result->fetch_assoc();
@@ -450,12 +455,10 @@ function LinearRegressionRaceCompare($e1, $e2, $limit, $rid = null)
 		return array("m"=>1, "b"=>0, "prediction"=>$pred, "compared"=>1000);
 	}
 	
-	// Open the database
-	$mysqli = OpenRaceResultsDatabase();
 	// Get the winning times to use in calculating the percent back
-	$result = $mysqli->query("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$e1");
+	$result =RaceResultsQuery("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$e1");
 	$min_time1 = $result->fetch_assoc()["WinningTime"];
-	$result = $mysqli->query("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$e2");
+	$result = RaceResultsQuery("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$e2");
 	$min_time2 = $result->fetch_assoc()["WinningTime"];
 	$min_time1_string = gmdate("H:i:s",$min_time1);
 	$min_time2_string = gmdate("H:i:s",$min_time2);
