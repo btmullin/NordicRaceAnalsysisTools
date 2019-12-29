@@ -469,11 +469,6 @@ function LinearRegressionRaceCompare($e1, $e2, $limit, $rid = null)
 	$limit1_string = gmdate("H:i:s",$limit1);
 	$limit2_string = gmdate("H:i:s",$limit2);
 					
-					// btm - having some trouble with the following query losing connection to the database
-					// going to try closing the connection and reopening it here
-					$mysqli->close();
-					$mysqli = OpenRaceResultsDatabase();
-
 	// Do the linear regression on the common racers that are within the limit
 	$q = "SELECT Racer.FirstName, Racer.LastName, r1.TimeInSec as \"Race 1 Time\", r2.TimeInSec as \"Race 2 Time\"
 			FROM Racer, Result r1, Result r2
@@ -481,7 +476,7 @@ function LinearRegressionRaceCompare($e1, $e2, $limit, $rid = null)
 			LIMIT 1000";
 	
 	// Find the results within the limit
-	$result = $mysqli->query($q);
+	$result = RaceResultsQuery($q);
 	if (!$result)
 	{
 		error_log("No common results in limit for $e1 and $e2");
@@ -508,7 +503,7 @@ function LinearRegressionRaceCompare($e1, $e2, $limit, $rid = null)
 	{
 		// Find the racers time in the events
 		$q = "SELECT TimeInSec FROM Result WHERE EventID=$e1 AND RacerID=$rid";
-		$result = $mysqli->query($q);
+		$result = RaceResultsQuery($q);
 		if ($result->num_rows == 1)
 		{
 			$row = $result->fetch_assoc();
