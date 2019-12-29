@@ -438,6 +438,7 @@ function LinearRegressionRaceCompare($e1, $e2, $limit, $rid = null)
 		if ($rid != null)
 		{
 			// Find the racers time in the events
+			$mysqli = OpenRaceResultsDatabase();
 			$q = "SELECT TimeInSec FROM Result WHERE EventID=$e1 AND RacerID=$rid";
 			$result = $mysqli->query($q);
 			if ($result->num_rows == 1)
