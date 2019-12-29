@@ -248,17 +248,14 @@ function GetEliteWaveCutoff($event_id, $gender)
 								EventView.EventID,
 								Event.DistanceInKM,
 								SEC_TO_TIME(Result.TimeInSec) as Time,
-								Result.TimeInSec as TimeInSec,
-								FORMAT(((TimeInSec - (SELECT MIN(TimeInSec) FROM Result as R1 WHERE R1.EventID=Event.EventID))/
-											  (SELECT MIN(TimeInSec) FROM Result as R2 WHERE R2.EventID=Event.EventID)*100),1) as \"Percent Back\",
-								((SELECT COUNT(*) FROM Result as R3 WHERE R3.EventID=Event.EventID AND TimeInSec<Result.TimeInSec)+1) as \"Overall Place\"
-								FROM Event, Racer, Result, EventView
-								WHERE Racer.RacerID=Result.RacerID AND
-									Result.EventID=Event.EventID AND
-									Racer.RacerID=$RacerID AND
-									EventView.EventID=Event.EventID AND
-									EventView.EventDate >= \"$event_date_limit\"
-								ORDER BY Event.EventDate DESC";
+								Result.TimeInSec as TimeInSec
+							FROM Event, Racer, Result, EventView
+							WHERE Racer.RacerID=Result.RacerID AND
+								Result.EventID=Event.EventID AND
+								Racer.RacerID=$RacerID AND
+								EventView.EventID=Event.EventID AND
+								EventView.EventDate >= \"$event_date_limit\"
+							ORDER BY Event.EventDate DESC";
 					$result = $mysqli->query($q);
 					echo "<table>";
 					echo "<th><b>Event</b></th><th><b>Event Place</b></th><th><b>Predicted ".$birkie_year." Birkie Time</b></th><th><b>Predicted Overall Place</b></th><th><b>Predicted Gender Place</b></th><th><b>Wave</b></th><th><b>Prediction Strength (0-100)</b></th><th><b>Elite Wave Beaten</b></th>";
