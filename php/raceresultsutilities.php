@@ -432,6 +432,23 @@ function LogActivity($parms = null)
  */
 function LinearRegressionRaceCompare($e1, $e2, $limit, $rid = null)
 {
+	if ($e1 == $e2)
+	{
+		$pred = null;
+		if ($rid != null)
+		{
+			// Find the racers time in the events
+			$q = "SELECT TimeInSec FROM Result WHERE EventID=$e1 AND RacerID=$rid";
+			$result = $mysqli->query($q);
+			if ($result->num_rows == 1)
+			{
+				$row = $result->fetch_assoc();
+				$pred = $row["TimeInSec"];
+			}
+		}
+		return array("m"=>1, "b"=>0, "prediction"=>$pred, "compared"=>1000);
+	}
+	
 	// Open the database
 	$mysqli = OpenRaceResultsDatabase();
 	// Get the winning times to use in calculating the percent back
