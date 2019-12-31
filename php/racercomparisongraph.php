@@ -13,8 +13,6 @@ function DateLabelCallback($val)
 	$RacerID1 = $_REQUEST["rid1"];
 	$RacerID2 = $_REQUEST["rid2"];
 	
-	$mysqli = OpenRaceResultsDatabase();
-
 	$q = "SELECT 	EventView.EventDate as \"EventDate\",
 					EventView.FullName as \"Event Name\",
 					EventView.EventID,
@@ -27,7 +25,7 @@ function DateLabelCallback($val)
 						Result2.RacerID=$RacerID2";
 	
 	// Build a pair of arrays
-	$result = $mysqli->query($q);
+	$result = RaceResultsQuery($q);
 	$x = array();
 	$y = array();
 	$e = 1;
@@ -68,7 +66,7 @@ function DateLabelCallback($val)
 	require_once('jpgraph/src/jpgraph_plotband.php');
 	require_once('jpgraph/src/jpgraph_utils.inc.php');
 	$q = "SELECT MIN(YEAR(Event.EventDate)) as Start, MAX(YEAR(Event.EventDate)) as End FROM Event";
-	$result = $mysqli->query($q);
+	$result = RaceResultsQuery($q);
 	$row = $result->fetch_assoc();
 	$minyear = $row["Start"];
 	$maxyear = $row["End"];

@@ -136,8 +136,6 @@ require_once 'php/raceresultsutilities.php';
 					}
 					
 					
-					$mysqli = OpenRaceResultsDatabase();
-
 					// Select just the elm creek freestyle races
 					$start_year = $year - 1;
 					$q = "SELECT EventView.*,
@@ -147,7 +145,7 @@ require_once 'php/raceresultsutilities.php';
 								EventDate >= \"$start_year-9-1\" AND
 								EventDate < \"$year-9-1\" AND
 								Technique=\"$style\"";
-					$result = $mysqli->query($q);
+					$result = RaceResultsQuery($q);
 
 					// Now for each race we want to do a bunch of things
 					$race_number = 0;
@@ -159,7 +157,7 @@ require_once 'php/raceresultsutilities.php';
 						$raceid = $race["EventID"];
 						
 						// get the results for the race
-						$race_results = $mysqli->query("SELECT
+						$race_results = RaceResultsQuery("SELECT
 							Racer.RacerID,
 							Racer.Gender,
 							CONCAT(Racer.FirstName,' ',Racer.LastName) AS \"Skier Name\",

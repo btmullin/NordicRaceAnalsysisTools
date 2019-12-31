@@ -4,13 +4,10 @@
 // include the utilities functions
 require_once 'raceresultsutilities.php';
 
-// Open the database
-$mysqli = OpenRaceResultsDatabase();
-
 // get the event data
 $query = "SELECT *, (SELECT COUNT(*) FROM Result WHERE Result.EventID=EventView.EventID) as Participants FROM EventView";
 
-$result = $mysqli->query($query);
+$result = RaceResultsQuery($query);
 
 if ($result)
 {

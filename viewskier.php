@@ -49,8 +49,7 @@
 						<label for="racer">Racer</label>
 						<select id="racer" name='id'>
 							<?php
-							$mysqli = OpenRaceResultsDatabase();
-							$result = $mysqli->query('SELECT * FROM Racer Where RacerID=PrimaryRacerID ORDER BY FirstName, LastName');
+							$result = RaceResultsQuery('SELECT * FROM Racer Where RacerID=PrimaryRacerID ORDER BY FirstName, LastName');
 							echo "<option value=null>Select Racer</option>";
 							while ($row = $result->fetch_array())
 							{
@@ -78,8 +77,6 @@
 				else
 				{
 					$racertable="Racer";
-					$mysqli = OpenRaceResultsDatabase();
-
 					if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						if ($_REQUEST["id"] != "null")
 						{
@@ -103,7 +100,7 @@
 							{
 								$q .= "LastName=\"$LN\" ";
 							}
-							$result = $mysqli->query($q);
+							$result = RaceResultsQuery($q);
 							$RacerMatches = $result->num_rows;
 							if ($RacerMatches == 1)
 							{
@@ -150,7 +147,7 @@
 								(SELECT COUNT(*) FROM Result WHERE Result.RacerID='.$RacerID.') as Results
 							FROM '.$racertable.' WHERE RacerID = '.$RacerID;
 
-					$result = $mysqli->query($query);
+					$result = RaceResultsQuery($query);
 
 					if ($result)
 					{
@@ -185,7 +182,7 @@
 									EventView.EventID=Event.EventID AND
 									EventView.FullName LIKE '%$filter%'
 								ORDER BY Event.EventDate";
-					$result = $mysqli->query($q);
+					$result = RaceResultsQuery($q);
 					ResultToTable($result);
 
 					echo "<br><br>";
