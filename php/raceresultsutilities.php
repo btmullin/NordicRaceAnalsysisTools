@@ -42,6 +42,15 @@ function OpenRaceResultsDatabase()
 	return $mysqli;
 }
 
+// This function does a query and manages open and closing the db nicely
+function RaceResultsQuery($query)
+{
+	$mysqli = OpenRaceResultsDatabase();
+	$result = $mysqli->query($query);
+	$mysqli->close();
+	return $result;
+}
+
 
 // This function outputs a mysql result to a table including header
 function ResultToTable($data)
@@ -319,10 +328,7 @@ function linear_regression($x, $y) {
  * @returns nothing
  */
 function raceresultstable($event_id) {
-	// Open the database
-	$mysqli = OpenRaceResultsDatabase();
-
-	$result = $mysqli->query("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$event_id");
+	$result = RaceResultsQuery("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$event_id");
 	$min_time = $result->fetch_assoc()["WinningTime"];
 	// Build the race results query
 	$query = 'SELECT @r := @r+1 AS Place,
@@ -335,7 +341,7 @@ function raceresultstable($event_id) {
 						  FORMAT(((Result.TimeInSec-'.$min_time.')/'.$min_time.'*100),2) AS "% Back"
 				   FROM Racer INNER JOIN Result ON Racer.RacerID = Result.RacerId WHERE Result.EventID='.$event_id.' ORDER BY Result.TimeInSec)z,(select @r:=0)y';
 
-   $result = $mysqli->query($query);
+   $result = RaceResultsQuery($query);
    
 	if ($result)
 	{
@@ -407,6 +413,8 @@ function LogActivity($parms = null)
 	if ($handle)
 	{
 		fwrite($handle, strftime("%Y-%m-%d %H:%M:%S, "));
+		$agent = $_SERVER['HTTP_USER_AGENT'];
+		fwrite($handle, "$agent, ");
 		$backtrace = debug_backtrace();
 		fwrite($handle, $backtrace[0]["file"]);
 		if ($parms != null)
@@ -430,12 +438,27 @@ function LogActivity($parms = null)
  */
 function LinearRegressionRaceCompare($e1, $e2, $limit, $rid = null)
 {
-	// Open the database
-	$mysqli = OpenRaceResultsDatabase();
+	if ($e1 == $e2)
+	{
+		$pred = null;
+		if ($rid != null)
+		{
+			// Find the racers time in the events
+			$q = "SELECT TimeInSec FROM Result WHERE EventID=$e1 AND RacerID=$rid";
+			$result = RaceResultsQuery($q);
+			if ($result->num_rows == 1)
+			{
+				$row = $result->fetch_assoc();
+				$pred = $row["TimeInSec"];
+			}
+		}
+		return array("m"=>1, "b"=>0, "prediction"=>$pred, "compared"=>1000);
+	}
+	
 	// Get the winning times to use in calculating the percent back
-	$result = $mysqli->query("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$e1");
+	$result =RaceResultsQuery("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$e1");
 	$min_time1 = $result->fetch_assoc()["WinningTime"];
-	$result = $mysqli->query("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$e2");
+	$result = RaceResultsQuery("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventID=$e2");
 	$min_time2 = $result->fetch_assoc()["WinningTime"];
 	$min_time1_string = gmdate("H:i:s",$min_time1);
 	$min_time2_string = gmdate("H:i:s",$min_time2);
@@ -446,11 +469,6 @@ function LinearRegressionRaceCompare($e1, $e2, $limit, $rid = null)
 	$limit1_string = gmdate("H:i:s",$limit1);
 	$limit2_string = gmdate("H:i:s",$limit2);
 					
-					// btm - having some trouble with the following query losing connection to the database
-					// going to try closing the connection and reopening it here
-					$mysqli->close();
-					$mysqli = OpenRaceResultsDatabase();
-
 	// Do the linear regression on the common racers that are within the limit
 	$q = "SELECT Racer.FirstName, Racer.LastName, r1.TimeInSec as \"Race 1 Time\", r2.TimeInSec as \"Race 2 Time\"
 			FROM Racer, Result r1, Result r2
@@ -458,7 +476,11 @@ function LinearRegressionRaceCompare($e1, $e2, $limit, $rid = null)
 			LIMIT 1000";
 	
 	// Find the results within the limit
-	$result = $mysqli->query($q);
+	$result = RaceResultsQuery($q);
+	if (!$result)
+	{
+		error_log("No common results in limit for $e1 and $e2");
+	}
 	$x_inc = array();
 	$y_inc = array();
 	while ($row = $result->fetch_array())
@@ -481,7 +503,7 @@ function LinearRegressionRaceCompare($e1, $e2, $limit, $rid = null)
 	{
 		// Find the racers time in the events
 		$q = "SELECT TimeInSec FROM Result WHERE EventID=$e1 AND RacerID=$rid";
-		$result = $mysqli->query($q);
+		$result = RaceResultsQuery($q);
 		if ($result->num_rows == 1)
 		{
 			$row = $result->fetch_assoc();

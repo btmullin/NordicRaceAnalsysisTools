@@ -54,8 +54,7 @@
 						<label for="racer1">Racer 1</label>
 						<select id="racer1" name='id1'>
 						<?php
-						$mysqli = OpenRaceResultsDatabase();
-						$result = $mysqli->query('SELECT * FROM Racer Where RacerID=PrimaryRacerID ORDER BY FirstName, LastName');
+						$result = RaceResultsQuery('SELECT * FROM Racer Where RacerID=PrimaryRacerID ORDER BY FirstName, LastName');
 						while ($row = $result->fetch_array())
 						{
 							$id = $row["RacerID"];
@@ -71,8 +70,7 @@
 						<label for="racer2">Racer 2</label>
 						<select id="racer2" name='id2'>
 						<?php
-						$mysqli = OpenRaceResultsDatabase();
-						$result = $mysqli->query('SELECT * FROM Racer Where RacerID=PrimaryRacerID ORDER BY FirstName, LastName');
+						$result = RaceResultsQuery('SELECT * FROM Racer Where RacerID=PrimaryRacerID ORDER BY FirstName, LastName');
 						while ($row = $result->fetch_array())
 						{
 							$id = $row["RacerID"];
@@ -93,8 +91,6 @@
 				}
 				else
 				{
-					$mysqli = OpenRaceResultsDatabase();
-
 					if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					  $RacerID1 = $_POST["id1"];
 					  $RacerID2 = $_POST["id2"];
@@ -125,7 +121,7 @@
 								Gender AS "Gender"
 							FROM Racer WHERE RacerID = '.$RacerID1.' OR RacerID = '.$RacerID2;
 
-					$result = $mysqli->query($query);
+					$result = RaceResultsQuery($query);
 
 					if ($result)
 					{
@@ -137,7 +133,7 @@
 					}
 					
 					// this time grab the skier names for titles in the next table
-					$result = $mysqli->query($query);
+					$result = RaceResultsQuery($query);
 					while ($data = $result->fetch_assoc())
 					{
 						$name = $data["First Name"]." ".$data["Last Name"];
@@ -166,7 +162,7 @@
 										Result1.RacerID=$RacerID1 AND
 										Result2.RacerID=$RacerID2";
 										
-					$result = $mysqli->query($q);
+					$result = RaceResultsQuery($q);
 					if ($result)
 					{
 						$header = $result->fetch_fields();

@@ -46,8 +46,7 @@
 						<label for="race">Event</label>
 						<select id="race" name='id'>
 							<?php
-								$mysqli = OpenRaceResultsDatabase();
-								$result = $mysqli->query('SELECT * FROM EventView');
+								$result = RaceResultsQuery('SELECT * FROM EventView');
 								while ($row = $result->fetch_array())
 								{
 									$id = $row["EventID"];
@@ -78,13 +77,11 @@
 					
 					LogActivity([$EventID]);
 					
-					$mysqli = OpenRaceResultsDatabase();
-
-					$result = $mysqli->query("SELECT FullName FROM EventView WHERE EventID=$EventID");
+					$result = RaceResultsQuery("SELECT FullName FROM EventView WHERE EventID=$EventID");
 					$row = $result->fetch_array();
 					$EventName = $row["FullName"];
 					echo "<h2>$EventName</h2>";
-					$result = $mysqli->query("SELECT EventDate, Location, Source FROM EventView WHERE EventID=$EventID");
+					$result = RaceResultsQuery("SELECT EventDate, Location, Source FROM EventView WHERE EventID=$EventID");
 					ResultToTable($result);
 					echo "Event ID: $EventID<br>";
 					echo "<a href=\"#graphs\">Jump To Graphs</a><br><br>";

@@ -12,11 +12,9 @@ function DateLabelCallback($val)
 	// Get racers results
 	$RacerID = $_REQUEST["rid"];
 	
-	$mysqli = OpenRaceResultsDatabase();
-
 	// get a count of the events for that racer with each technique type
 	$q = "SELECT TechniqueOut.Name, (SELECT COUNT(*) FROM Result,Event WHERE Result.EventID=Event.EventID AND Event.Technique=TechniqueOut.TechniqueID AND Result.RacerID=$RacerID) as RaceCount FROM Technique as TechniqueOut";
-	$result = $mysqli->query($q);
+	$result = RaceResultsQuery($q);
 	$data = array();
 	$labels = array();
 	$total = 0;

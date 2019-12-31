@@ -12,11 +12,9 @@ function LabelCallback($val)
 	$PBLimit = $_REQUEST["pb"];
 	$RacerID = $_REQUEST["rid"];
 	
-	$mysqli = OpenRaceResultsDatabase();
-
-	$result = $mysqli->query("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventId=$EventID1");
+	$result = RaceResultsQuery("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventId=$EventID1");
 	$min_time1 = $result->fetch_assoc()["WinningTime"];
-	$result = $mysqli->query("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventId=$EventID2");
+	$result = RaceResultsQuery("SELECT MIN(TimeInSec) AS WinningTime From Result WHERE Result.EventId=$EventID2");
 	$min_time2 = $result->fetch_assoc()["WinningTime"];
 	$limit1 = $min_time1*(1+$PBLimit/100);
 	$limit2 = $min_time2*(1+$PBLimit/100);
@@ -26,7 +24,7 @@ function LabelCallback($val)
 			WHERE r1.EventID=$EventID1 AND r2.EventID=$EventID2 AND r1.RacerID=r2.RacerID AND Racer.RacerID=r1.RacerID";
 	
 	// Build a pair of arrays
-	$result = $mysqli->query($q);
+	$result = RaceResultsQuery($q);
 	$x_inc = array();
 	$y_inc = array();
 	$x_ex = array();
@@ -56,11 +54,11 @@ function LabelCallback($val)
 	
 	// Get event titles
 	$q = "SELECT FullName FROM EventView WHERE EventID=$EventID1";
-	$result = $mysqli->query($q);
+	$result = RaceResultsQuery($q);
 	$row = $result->fetch_array();
 	$Event1Name = $row["FullName"];
 	$q = "SELECT FullName FROM EventView WHERE EventID=$EventID2";
-	$result = $mysqli->query($q);
+	$result = RaceResultsQuery($q);
 	$row = $result->fetch_array();
 	$Event2Name = $row["FullName"];
 	

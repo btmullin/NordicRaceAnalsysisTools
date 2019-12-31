@@ -6,9 +6,6 @@ require_once 'php/raceresultsutilities.php';
 
 LogActivity();
 
-// Open the database
-$mysqli = OpenRaceResultsDatabase();
-
 // get the event data
 $query = 'SELECT 
 			EventID AS "EventID",
@@ -21,7 +18,7 @@ $query = 'SELECT
 			FROM EventView
 			ORDER BY EventDate DESC, FullName DESC';
 
-$result = $mysqli->query($query);
+$result = RaceResultsQuery($query);
 
 if ($result)
 {

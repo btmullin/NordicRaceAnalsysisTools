@@ -65,7 +65,6 @@ function GetEliteWaveCutoff($event_id, $gender)
 {
 	global $elite;
 	
-	$mysqli = OpenRaceResultsDatabase();
 	$query = "SELECT 
 				Result.*,
 				Racer.*
@@ -80,7 +79,7 @@ function GetEliteWaveCutoff($event_id, $gender)
 				Result.TimeInSec
 			LIMIT
 				$elite[$gender]";
-	$result = $mysqli->query($query);
+	$result = RaceResultsQuery($query);
 	$time = 0;
 	while ($row = $result->fetch_assoc())
 	{
@@ -150,8 +149,7 @@ function GetEliteWaveCutoff($event_id, $gender)
 						<label for="racer">Racer</label>
 						<select id="racer" name='id'>
 							<?php
-							$mysqli = OpenRaceResultsDatabase();
-							$result = $mysqli->query('SELECT * FROM Racer Where RacerID=PrimaryRacerID ORDER BY FirstName, LastName');
+							$result = RaceResultsQuery('SELECT * FROM Racer Where RacerID=PrimaryRacerID ORDER BY FirstName, LastName');
 							while ($row = $result->fetch_array())
 							{
 								$id = $row["RacerID"];
@@ -174,7 +172,6 @@ function GetEliteWaveCutoff($event_id, $gender)
 				}
 				else
 				{
-					$mysqli = OpenRaceResultsDatabase();
 					$strength_limit = 0;
 
 					if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -218,13 +215,13 @@ function GetEliteWaveCutoff($event_id, $gender)
 								(SELECT COUNT(*) FROM Result WHERE Result.RacerID='.$RacerID.') as Results
 							FROM Racer WHERE RacerID = '.$RacerID;
 
-					$result = $mysqli->query($query);
+					$result = RaceResultsQuery($query);
 					$data = $result->fetch_assoc();
 					$gender = $data["Gender"];
 					$FN = $data["First Name"];
 					$LN = $data["Last Name"];
 
-					$result = $mysqli->query($query);
+					$result = RaceResultsQuery($query);
 
 					if ($result)
 					{
@@ -248,18 +245,15 @@ function GetEliteWaveCutoff($event_id, $gender)
 								EventView.EventID,
 								Event.DistanceInKM,
 								SEC_TO_TIME(Result.TimeInSec) as Time,
-								Result.TimeInSec as TimeInSec,
-								FORMAT(((TimeInSec - (SELECT MIN(TimeInSec) FROM Result as R1 WHERE R1.EventID=Event.EventID))/
-											  (SELECT MIN(TimeInSec) FROM Result as R2 WHERE R2.EventID=Event.EventID)*100),1) as \"Percent Back\",
-								((SELECT COUNT(*) FROM Result as R3 WHERE R3.EventID=Event.EventID AND TimeInSec<Result.TimeInSec)+1) as \"Overall Place\"
-								FROM Event, Racer, Result, EventView
-								WHERE Racer.RacerID=Result.RacerID AND
-									Result.EventID=Event.EventID AND
-									Racer.RacerID=$RacerID AND
-									EventView.EventID=Event.EventID AND
-									EventView.EventDate >= \"$event_date_limit\"
-								ORDER BY Event.EventDate DESC";
-					$result = $mysqli->query($q);
+								Result.TimeInSec as TimeInSec
+							FROM Event, Racer, Result, EventView
+							WHERE Racer.RacerID=Result.RacerID AND
+								Result.EventID=Event.EventID AND
+								Racer.RacerID=$RacerID AND
+								EventView.EventID=Event.EventID AND
+								EventView.EventDate >= \"$event_date_limit\"
+							ORDER BY Event.EventDate DESC";
+					$result = RaceResultsQuery($q);
 					echo "<table>";
 					echo "<th><b>Event</b></th><th><b>Event Place</b></th><th><b>Predicted ".$birkie_year." Birkie Time</b></th><th><b>Predicted Overall Place</b></th><th><b>Predicted Gender Place</b></th><th><b>Wave</b></th><th><b>Prediction Strength (0-100)</b></th><th><b>Elite Wave Beaten</b></th>";
 					while ($row = $result->fetch_assoc())
@@ -301,7 +295,7 @@ function GetEliteWaveCutoff($event_id, $gender)
 							// column for original race place
 							$original_time = $row["TimeInSec"];
 							$original_pq = "SELECT * FROM Result, Racer WHERE EventID=$raceid AND Racer.RacerID=Result.RacerID AND TimeInSec<$original_time";
-							$original_r = $mysqli->query($original_pq);
+							$original_r = RaceResultsQuery($original_pq);
 							$original_p = $original_r->num_rows+1;
 							echo "<td>$original_p</td>";
 							
@@ -310,12 +304,12 @@ function GetEliteWaveCutoff($event_id, $gender)
 							
 							$timeinsec = $pred["prediction"];
 							$oapq = "SELECT * FROM Result, Racer WHERE EventID=$birkie_id AND Racer.RacerID=Result.RacerID AND TimeInSec<$timeinsec";
-							$oapr = $mysqli->query($oapq);
+							$oapr = RaceResultsQuery($oapq);
 							$oap = $oapr->num_rows+1;
 							echo "<td>$oap</td>";
 							
 							$gpq = "SELECT * FROM Result, Racer WHERE EventID=$birkie_id AND Racer.RacerID=Result.RacerID AND Gender=\"$gender\" AND TimeInSec<$timeinsec";
-							$gpr = $mysqli->query($gpq);
+							$gpr = RaceResultsQuery($gpq);
 							$gp = $gpr->num_rows+1;
 							echo "<td>$gp</td>";
 							
@@ -350,7 +344,7 @@ function GetEliteWaveCutoff($event_id, $gender)
 									br.TimeInSec <= $cutoff[$gender] AND
 									er.TimeInSec > $racer_time AND
 									Racer.Gender = \"$gender\"";
-							$beaten_result = $mysqli->query($beaten_q);
+							$beaten_result = RaceResultsQuery($beaten_q);
 							$beaten_count = $beaten_result->num_rows;
 							echo "<td>".$beaten_count."</td>";
 			

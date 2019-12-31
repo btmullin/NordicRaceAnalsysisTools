@@ -30,7 +30,6 @@
 				<?php
 				// include the utilities functions
 				require_once 'php/raceresultsutilities.php';
-				$mysqli = OpenRaceResultsDatabase();
 
 				LogActivity();
 
@@ -42,7 +41,7 @@
 							COUNT(EventID) as NumRaces
 						FROM Event';
 
-				$result = $mysqli->query($query);
+				$result = RaceResultsQuery($query);
 				$data = $result->fetch_assoc();
 				$NumRaces = $data["NumRaces"];
 				
@@ -52,7 +51,7 @@
 							COUNT(RacerID) as NumRacers
 						FROM Racer WHERE EXISTS
 						(SELECT * FROM Result WHERE Result.RacerID=Racer.RacerID)';
-				$result = $mysqli->query($query);
+				$result = RaceResultsQuery($query);
 				$data = $result->fetch_assoc();
 				$NumRacers = $data["NumRacers"];
 
@@ -60,7 +59,7 @@
 				
 				$query = 'SELECT COUNT(id) as NumResults FROM Result';
 				
-				$result = $mysqli->query($query);
+				$result = RaceResultsQuery($query);
 				$data = $result->fetch_assoc();
 				$NumResults = $data["NumResults"];
 
@@ -70,7 +69,7 @@
 							SUM(Event.DistanceInKM) as KMSkied
 						FROM Result, Event WHERE Result.EventID=Event.EventID';
 				
-				$result = $mysqli->query($query);
+				$result = RaceResultsQuery($query);
 				$data = $result->fetch_assoc();
 				$KMSkied = $data["KMSkied"];
 

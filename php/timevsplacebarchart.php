@@ -11,12 +11,10 @@ function TimeLabelCallback($val)
 	// Get the common results
 	$EventID = $_REQUEST["eid"];
 	
-	$mysqli = OpenRaceResultsDatabase();
-
 	$q = "SELECT * FROM Result WHERE Result.EventID=$EventID ORDER BY Result.TimeInSec";
 	
 	// Build a pair of arrays
-	$result = $mysqli->query($q);
+	$result = RaceResultsQuery($q);
 	$x = array();
 	$y = array();
 	$i = 1;
@@ -29,7 +27,7 @@ function TimeLabelCallback($val)
 	
 	// Get event titles
 	$q = "SELECT FullName FROM EventView WHERE EventID=$EventID";
-	$result = $mysqli->query($q);
+	$result = RaceResultsQuery($q);
 	$row = $result->fetch_array();
 	$EventName = $row["FullName"];
 	
