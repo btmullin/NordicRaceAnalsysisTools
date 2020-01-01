@@ -364,6 +364,7 @@ function GetEliteWaveCutoff($event_id, $gender)
 </div>
 
 <script src="ui.js"></script>
+<script type="text/javascript" src="datalist-polyfill.js"></script>
 
 </body>
 </html>
