@@ -1,7 +1,7 @@
 <?php
 include '../php/raceresultsutilities.php';
 // If this isn't a post, then we should display the form first
-if (!isset($_POST['submit']) AND !isset($_REQUEST['rid']))
+if (!isset($_POST['submit']) AND !isset($_REQUEST['team_id']))
 {
 	// This isn't a the initial submit or confirm so we should display the form
 	// select the team
