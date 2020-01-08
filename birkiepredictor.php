@@ -27,12 +27,12 @@ $event_date_limit = "2018-07-01";  // '18/'19 and later
 
 $birkie_id = 174; // '18 freestyle
 $birkie_year = 2019;
-$waves = array(		array("time"=>10657, "name"=>"Wave 1"), // 3:11:35
-					array("time"=>11612, "name"=>"Wave 2"), // 3:30:09
-					array("time"=>12568, "name"=>"Wave 3"), // 3:47:23
-					array("time"=>13523, "name"=>"Wave 4"), // 4:04:37
-					array("time"=>14846, "name"=>"Wave 5"), // 4:28:29
-					array("time"=>16978, "name"=>"Wave 6"), // 5:04:16
+$waves = array(		array("time"=>11495, "name"=>"Wave 1"), // 3:11:35
+					array("time"=>12609, "name"=>"Wave 2"), // 3:30:09
+					array("time"=>13643, "name"=>"Wave 3"), // 3:47:23
+					array("time"=>14677, "name"=>"Wave 4"), // 4:04:37
+					array("time"=>16109, "name"=>"Wave 5"), // 4:28:29
+					array("time"=>18256, "name"=>"Wave 6"), // 5:04:16
 					array("time"=>99999, "name"=>"Wave 7"), // per 2020 stds
 					array("time"=>99999, "name"=>"Wave 8")); // new skiers
 //$birkie_id = 126; // '18 freestyle
