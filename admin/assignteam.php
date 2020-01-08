@@ -62,6 +62,6 @@ else
 	echo "<b>Team: $team_name</b><br>";
 	
 	$result = RaceResultsQuery("SELECT FirstName, LastName FROM Racer, Affiliation WHERE Racer.RacerID=Affiliation.RacerID AND Affiliation.TeamID=$team_id");
-	ResultToTable($result);
+	ResultToTable($result, "300px");
 }
 ?>
