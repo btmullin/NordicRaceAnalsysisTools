@@ -82,7 +82,7 @@ else
 	$team_name = $row["Name"];
 	echo "<b>Team: $team_name</b><br>";
 	
-	$result = RaceResultsQuery("SELECT FirstName, LastName FROM Racer, Affiliation WHERE Racer.RacerID=Affiliation.RacerID AND Affiliation.TeamID=$team_id");
+	$result = RaceResultsQuery("SELECT FirstName, LastName FROM Racer, Affiliation WHERE Racer.RacerID=Affiliation.RacerID AND Affiliation.TeamID=$team_id ORDER BY LastName ASC, FirstName ASC");
 	ResultToTable($result,"300px");
 }
 ?>
