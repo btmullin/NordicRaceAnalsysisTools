@@ -35,7 +35,7 @@ if (!isset($_POST['submit']) AND !isset($_REQUEST['team_id']))
 	
 	<?php
 	// Make a table of teams and number of members
-	echo "<table width=\"300\">";
+	echo "<table style=\"width=300px\">";
 	//header
 	echo "<tr>";
 	$data = RaceResultsQuery("select Team.TeamID, Name, count(Affiliation.TeamID) as \"Members\" FROM Team, Affiliation WHERE Team.TeamID=Affiliation.TeamID GROUP By Affiliation.TeamID");
