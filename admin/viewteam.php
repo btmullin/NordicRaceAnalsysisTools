@@ -4,21 +4,9 @@ include '../php/raceresultsutilities.php';
 if (!isset($_POST['submit']))
 {
 	// This isn't a the initial submit or confirm so we should display the form
-	// to select the racers
+	// select the team
 ?>
-	<form action="assignteam.php" method="post">
-	Racer: <select name='racer_id'>
-		<?php
-			$result = RaceResultsQuery('SELECT * FROM Racer WHERE RacerID=PrimaryRacerID ORDER BY FirstName, LastName');
-			while ($row = $result->fetch_array())
-			{
-				$id = $row["RacerID"];
-				$fn = $row["FirstName"];
-				$ln = $row["LastName"];
-				echo "<option value=".$id.">".$fn." ".$ln."</option>";
-			}
-		?>
-	</select><br>
+	<form action="viewteam.php" method="post">
 	Team: <select name='team_id'>
 		<?php
 			$result = RaceResultsQuery('SELECT * FROM Team ORDER BY Name');
@@ -30,18 +18,14 @@ if (!isset($_POST['submit']))
 			}
 		?>
 	</select><br>
-	<input type="submit" value="Assign Team" name="submit">
+	<input type="submit" value="View Team" name="submit">
 	</form>
 <?php
 }
 else
 {
 	// The user has assigned a team
-	$racer_id = $_POST["racer_id"];
 	$team_id = $_POST["team_id"];
-	
-	// Assign
-	$result = RaceResultsQuery("INSERT INTO Affiliation (RacerID, TeamID) VALUES ($racer_id, $team_id)");
 	
 	// Show Team
 	$result = RaceResultsQuery("SELECT Name FROM Team WHERE TeamID=$team_id");
