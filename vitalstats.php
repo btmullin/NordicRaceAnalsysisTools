@@ -45,7 +45,7 @@
 				$data = $result->fetch_assoc();
 				$NumRaces = $data["NumRaces"];
 				
-				echo "<p>Races: $NumRaces</p>";
+				echo "<p>Races: ".number_format($NumRaces)."</p>";
 				
 				$query = 'SELECT
 							COUNT(RacerID) as NumRacers
@@ -55,7 +55,7 @@
 				$data = $result->fetch_assoc();
 				$NumRacers = $data["NumRacers"];
 
-				echo "<p>Racers: $NumRacers</p>";
+				echo "<p>Racers: ".number_format($NumRacers)."</p>";
 				
 				$query = 'SELECT COUNT(id) as NumResults FROM Result';
 				
@@ -63,7 +63,7 @@
 				$data = $result->fetch_assoc();
 				$NumResults = $data["NumResults"];
 
-				echo "<p>Results: $NumResults</p>";
+				echo "<p>Results: ".number_format($NumResults)."</p>";
 								
 				$query = 'SELECT
 							SUM(Event.DistanceInKM) as KMSkied
@@ -73,7 +73,7 @@
 				$data = $result->fetch_assoc();
 				$KMSkied = $data["KMSkied"];
 
-				echo "<p>Total KM Skied: $KMSkied</p>";
+				echo "<p>Total KM Skied: ".number_format($KMSkied)."</p>";
 				?>
 			</div>
 			
