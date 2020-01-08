@@ -26,7 +26,7 @@ if (!isset($_POST['submit']) AND !isset($_REQUEST['team_id']))
 	echo "<table>";
 	//header
 	echo "<tr>";
-	$data = RaceResultsQuery("select TeamID, Name, count(Affiliation.TeamID) as \"Members\" FROM Team, Affiliation WHERE Team.TeamID=Affiliation.TeamID GROUP By Affiliation.TeamID");
+	$data = RaceResultsQuery("select Team.TeamID, Name, count(Affiliation.TeamID) as \"Members\" FROM Team, Affiliation WHERE Team.TeamID=Affiliation.TeamID GROUP By Affiliation.TeamID");
 	$header = $data->fetch_fields();
 	foreach ($header as $col)
 	{
