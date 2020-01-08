@@ -40,7 +40,7 @@ if (!isset($_POST['submit']) AND !isset($_REQUEST['team_id']))
 	$lastdate = null;
 	while ($row = $data->fetch_assoc())
 	{
-		echo "<tr";
+		echo "<tr>";
 		// if it exists, grab the event and racer ids
 		$team_id = $row["TeamID"];
 		$team_name = $row["Name"];
