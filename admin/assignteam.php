@@ -9,7 +9,7 @@ if (!isset($_POST['submit']))
 	<form action="assignteam.php" method="post">
 	Racer: <select name='racer_id'>
 		<?php
-			$result = RaceResultsQuery('SELECT * FROM Racer ORDER BY FirstName, LastName');
+			$result = RaceResultsQuery('SELECT * FROM Racer WHERE RacerID=PrimaryRacerID ORDER BY FirstName, LastName');
 			while ($row = $result->fetch_array())
 			{
 				$id = $row["RacerID"];
