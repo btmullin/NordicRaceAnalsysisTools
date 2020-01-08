@@ -53,11 +53,16 @@ function RaceResultsQuery($query)
 
 
 // This function outputs a mysql result to a table including header
-function ResultToTable($data)
+function ResultToTable($data, $width=NULL)
 {
 	if ($data)
 	{
-		echo "<table>";
+		echo "<table";
+		if (!is_null($width))
+		{
+			echo " width=\".$width."\"";
+		}
+		echo ">";
 		//header
 		echo "<tr>";
 		$header = $data->fetch_fields();
