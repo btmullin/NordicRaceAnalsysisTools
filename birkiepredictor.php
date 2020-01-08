@@ -147,8 +147,7 @@ function GetEliteWaveCutoff($event_id, $gender)
 					<form class=" pure-form pure-form-aligned" action="birkiepredictor.php" method="post">
 					<div class="pure-control-group">
 						<label for="racer">Racer</label>
-						<input type="text" id="racer" name='id' list="names">
-						<datalist id="names">
+						<select id="racer" name='id'>
 							<?php
 							$result = RaceResultsQuery('SELECT * FROM Racer Where RacerID=PrimaryRacerID ORDER BY FirstName, LastName');
 							while ($row = $result->fetch_array())
@@ -159,7 +158,7 @@ function GetEliteWaveCutoff($event_id, $gender)
 								echo "<option value=".$id.">".$fn." ".$ln."</option>";
 							}
 							?>
-						</datalist><br>
+						</select><br>
 					</div>
 					<div class="pure-control-group">
 						<label for="strength">Stregth of Prediction Limit (Optional)</label>
@@ -364,7 +363,6 @@ function GetEliteWaveCutoff($event_id, $gender)
 </div>
 
 <script src="ui.js"></script>
-<script type="text/javascript" src="datalist-polyfill.js"></script>
 
 </body>
 </html>
