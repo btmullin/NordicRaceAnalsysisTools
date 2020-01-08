@@ -60,7 +60,7 @@ function ResultToTable($data, $width=NULL)
 		echo "<table";
 		if (!is_null($width))
 		{
-			echo " width=\".$width."\"";
+			echo " width=\"".$width."\"";
 		}
 		echo ">";
 		//header
