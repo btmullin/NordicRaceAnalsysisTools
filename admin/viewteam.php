@@ -45,7 +45,7 @@ if (!isset($_POST['submit']) AND !isset($_REQUEST['team_id']))
 		$team_id = $row["TeamID"];
 		$team_name = $row["Name"];
 		$count = $row["Members"];
-		echo "<td><a href=\"viewteam.php?team_id=".$team_id.">$team_name</a></td>";
+		echo "<td><a href=\"viewteam.php?team_id=".$team_id."\">$team_name</a></td>";
 		echo "<td>$count</td>";
 		echo "</tr>";
 	}
