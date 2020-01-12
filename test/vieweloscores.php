@@ -25,7 +25,7 @@ if (!is_null($width))
 echo ">";
 //header
 echo "<tr>";
-echo "$data";
+echo "huh";
 $header = $data->fetch_fields();
 foreach ($header as $col)
 {
