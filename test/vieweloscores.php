@@ -72,7 +72,7 @@ while ($row = $data->fetch_assoc())
 			echo "<td>";
 			if ($racer_id != null)
 			{
-				echo '<a href="test/vieweloskiersores.php?rid='.$racer_id.'">'.$field.'</a>';
+				echo '<a href="vieweloskiersores.php?rid='.$racer_id.'">'.$field.'</a>';
 			}
 			else
 			{
