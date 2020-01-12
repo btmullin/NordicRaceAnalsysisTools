@@ -15,6 +15,9 @@ include '../php/raceresultsutilities.php';
 
 // Show Team
 $data = RaceResultsQuery("SELECT OuterRacer.RacerID, FirstName, LastName, (SELECT Score FROM EloScore, Event WHERE EloScore.RacerID=OuterRacer.RacerID AND Event.EventID=EloScore.EventID ORDER BY Event.EventDate DESC LIMIT 1) as EloScore FROM EloScore, Racer as OuterRacer WHERE EloScore.RacerID=OuterRacer.RacerID GROUP BY OuterRacer.RacerID ORDER BY LastScore DESC");
+ResultToTable($data,"50%");
+
+
 $width = "50%";
 
 echo "<table";
@@ -25,7 +28,6 @@ if (!is_null($width))
 echo ">";
 //header
 echo "<tr>";
-echo "huh";
 $header = $data->fetch_fields();
 foreach ($header as $col)
 {
