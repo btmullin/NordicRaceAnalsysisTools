@@ -25,8 +25,8 @@ if (!is_null($width))
 echo ">";
 //header
 echo "<tr>";
+echo "$data";
 $header = $data->fetch_fields();
-echo "hi";
 foreach ($header as $col)
 {
 	if (($col->name != "EventID") && ($col->name != "RacerID"))
