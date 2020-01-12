@@ -26,6 +26,7 @@ echo ">";
 //header
 echo "<tr>";
 $header = $data->fetch_fields();
+echo "hi";
 foreach ($header as $col)
 {
 	if (($col->name != "EventID") && ($col->name != "RacerID"))
