@@ -14,7 +14,7 @@
 include '../php/raceresultsutilities.php';
 
 // Show Team
-$data = RaceResultsQuery("SELECT OuterRacer.RacerID, FirstName, LastName, (SELECT Score FROM EloScore, Event WHERE EloScore.RacerID=OuterRacer.RacerID AND Event.EventID=EloScore.EventID ORDER BY Event.EventDate DESC LIMIT 1) as EloScore FROM EloScore, Racer as OuterRacer WHERE EloScore.RacerID=OuterRacer.RacerID GROUP BY OuterRacer.RacerID ORDER BY EloScore DESC");
+$data = RaceResultsQuery("SELECT OuterRacer.RacerID, FirstName, LastName, (SELECT Score FROM EloScore, Event WHERE EloScore.RacerID=OuterRacer.RacerID AND Event.EventID=EloScore.EventID ORDER BY Event.EventDate DESC LIMIT 1) as \"Elo Score\" FROM EloScore, Racer as OuterRacer WHERE EloScore.RacerID=OuterRacer.RacerID GROUP BY OuterRacer.RacerID ORDER BY \"Elo Score\" DESC");
 
 $width = "50%";
 
@@ -67,7 +67,7 @@ while ($row = $data->fetch_assoc())
 			}
 			echo "</td>";
 		}
-		else if ($key == "EloScore")
+		else if ($key == "Elo Score")
 		{
 			echo "<td>";
 			if ($racer_id != null)
