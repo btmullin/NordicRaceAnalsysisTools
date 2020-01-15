@@ -7,7 +7,7 @@ function DateLabelCallback($val)
 	return $dt->format('Y');
 }
 
-	include 'raceresultsutilities.php';
+	include '../php/raceresultsutilities.php';
 	
 	// Get racers results
 	$RacerID = $_REQUEST["rid"];
