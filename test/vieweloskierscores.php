@@ -36,7 +36,7 @@ $result = RaceResultsQuery($query);
 
 if ($result)
 {
-	ResultToTable($result);
+	ResultToTable($result, "80%");
 }
 else
 {
