@@ -21,7 +21,30 @@ else
 {
 	die("No Racer Selected");
 }
-// Show Team
+
+$query = 'SELECT 
+			FirstName AS "First Name",
+			LastName AS "Last Name",
+			BirthYear AS "Birth Year",
+			HomeTown AS "Home Town",
+			HomeState AS "Home State",
+			Gender AS "Gender",
+			(SELECT COUNT(*) FROM Result WHERE Result.RacerID='.$RacerID.') as Results
+		FROM Racer WHERE RacerID = '.$RacerID;
+
+$result = RaceResultsQuery($query);
+
+if ($result)
+{
+	ResultToTable($result);
+}
+else
+{
+	echo "Query did not work<br/>";
+}
+
+echo "<br>";
+// Show Scores
 $result = RaceResultsQuery("SELECT Score, EventView.FullName from EloScore, EventView WHERE EventView.EventID=EloScore.EventID AND RacerID=$RacerID ORDER BY EventView.EventDate ASC");
 ResultToTable($result,"80%");
 
