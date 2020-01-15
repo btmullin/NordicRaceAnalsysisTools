@@ -4,7 +4,7 @@ function DateLabelCallback($val)
 {
 	$dt = new DateTime();
 	$dt->setTimestamp($val);
-	return $dt->format('Y');
+	return $dt->format('Y-m-d');
 }
 
 	include '../php/raceresultsutilities.php';
@@ -94,6 +94,9 @@ function DateLabelCallback($val)
 	// Plot the included results
 	$scatter = new ScatterPlot($y,$x);
 	$scatter->mark->SetFillColor("blue");
+	$scatter->link->Show();
+	$scatter->link->SetWeight(2);
+	$scatter->link->SetColor("blue");
 	$graph->Add($scatter);
 		
 	// Build the graph
