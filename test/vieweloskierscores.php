@@ -22,7 +22,7 @@ else
 	die("No Racer Selected");
 }
 // Show Team
-$result = RaceResultsQuery("SELECT Score, EventView.FullName from EloScore, Event WHERE EventView.EventID=EloScore.EventID AND RacerID=$RacerID ORDER BY Event.EventDate ASC");
+$result = RaceResultsQuery("SELECT Score, EventView.FullName from EloScore, EventView WHERE EventView.EventID=EloScore.EventID AND RacerID=$RacerID ORDER BY EventView.EventDate ASC");
 ResultToTable($result,"80%");
 
 ?>
