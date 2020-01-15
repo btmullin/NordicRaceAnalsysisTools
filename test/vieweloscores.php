@@ -14,7 +14,9 @@
 include '../php/raceresultsutilities.php';
 
 // Show Team
-$data = RaceResultsQuery('SELECT OuterRacer.RacerID, FirstName, LastName,
+$data = RaceResultsQuery('SELECT @r := @r+1 AS Rank,
+								z.*
+							FROM(SELECT OuterRacer.RacerID, FirstName, LastName,
 								(SELECT Score
 									FROM EloScore, Event 
 									WHERE EloScore.RacerID=OuterRacer.RacerID AND 
@@ -22,7 +24,7 @@ $data = RaceResultsQuery('SELECT OuterRacer.RacerID, FirstName, LastName,
 									ORDER BY Event.EventDate DESC LIMIT 1) as "Elo Score"
 							FROM EloScore, Racer as OuterRacer
 							WHERE EloScore.RacerID=OuterRacer.RacerID
-							GROUP BY OuterRacer.RacerID ORDER BY "Elo Score" DESC');
+							GROUP BY OuterRacer.RacerID ORDER BY "Elo Score" DESC)z,(select @r:=0)y');
 
 
 //	$query = 'SELECT @r := @r+1 AS Place,
