@@ -14,7 +14,28 @@
 include '../php/raceresultsutilities.php';
 
 // Show Team
-$data = RaceResultsQuery("SELECT OuterRacer.RacerID, FirstName, LastName, (SELECT Score FROM EloScore, Event WHERE EloScore.RacerID=OuterRacer.RacerID AND Event.EventID=EloScore.EventID ORDER BY Event.EventDate DESC LIMIT 1) as \"Elo Score\" FROM EloScore, Racer as OuterRacer WHERE EloScore.RacerID=OuterRacer.RacerID GROUP BY OuterRacer.RacerID ORDER BY \"Elo Score\" DESC");
+$data = RaceResultsQuery('SELECT OuterRacer.RacerID, FirstName, LastName,
+								(SELECT Score
+									FROM EloScore, Event 
+									WHERE EloScore.RacerID=OuterRacer.RacerID AND 
+										Event.EventID=EloScore.EventID
+									ORDER BY Event.EventDate DESC LIMIT 1) as "Elo Score"
+							FROM EloScore, Racer as OuterRacer
+							WHERE EloScore.RacerID=OuterRacer.RacerID
+							GROUP BY OuterRacer.RacerID ORDER BY "Elo Score" DESC');
+
+
+//	$query = 'SELECT @r := @r+1 AS Place,
+//					 z.*
+//			  FROM(SELECT Result.Bib,
+//						  Racer.RacerID,
+//						  CONCAT(Racer.FirstName,\' \',Racer.LastName) AS "Skier Name",
+//						  Racer.Gender as "Gender",
+//						  TIME_FORMAT(SEC_TO_TIME(Result.TimeInSec),\'%H:%i:%s\') AS Time,
+//						  FORMAT(((Result.TimeInSec-'.$min_time.')/'.$min_time.'*100),2) AS "% Back"
+//				   FROM Racer INNER JOIN Result ON Racer.RacerID = Result.RacerId WHERE Result.EventID='.$event_id.' ORDER BY Result.TimeInSec)z,(select @r:=0)y';
+
+
 
 // for some reason the query is not sorting, so grab all results and sort ourselves
 $scores = array();
