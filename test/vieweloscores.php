@@ -35,12 +35,20 @@ foreach ($header as $col)
 	}
 }
 echo "</tr>";
+
 // body
+
+// for some reason the query is not sorting, so grab all results and sort ourselves
+$scores = $data->fetch_all()
+usort($scores, function($a, $b) {
+    return $a['EloScore'] - $b['EloScore'];
+});
+
 $lastdate = null;
-while ($row = $data->fetch_assoc())
+foreach ($scores as $row)
 {
 	echo "<tr>";
-	// if it exists, grab the event and racer ids
+	// if it exists, grab racer ids
 	$racer_id = null;
 	if (array_key_exists("RacerID", $row))
 	{
