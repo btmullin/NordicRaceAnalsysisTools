@@ -17,9 +17,12 @@ include '../php/raceresultsutilities.php';
 $data = RaceResultsQuery("SELECT OuterRacer.RacerID, FirstName, LastName, (SELECT Score FROM EloScore, Event WHERE EloScore.RacerID=OuterRacer.RacerID AND Event.EventID=EloScore.EventID ORDER BY Event.EventDate DESC LIMIT 1) as \"Elo Score\" FROM EloScore, Racer as OuterRacer WHERE EloScore.RacerID=OuterRacer.RacerID GROUP BY OuterRacer.RacerID ORDER BY \"Elo Score\" DESC");
 
 // for some reason the query is not sorting, so grab all results and sort ourselves
-$scores = $data->fetch_all();
-echo "Here are the scores raw";
-echo var_dump($scores);
+$scores = array();
+while ($row = $data->fetch_assoc()) {
+  $scores[] = $row;
+}
+//echo "Here are the scores raw";
+//echo var_dump($scores);
 usort($scores, function($a, $b) {
     return $a['EloScore'] - $b['EloScore'];
 });
