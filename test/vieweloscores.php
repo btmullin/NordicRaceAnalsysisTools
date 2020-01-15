@@ -39,7 +39,7 @@ echo "</tr>";
 // body
 
 // for some reason the query is not sorting, so grab all results and sort ourselves
-$scores = $data->fetch_all()
+$scores = $data->fetch_all();
 usort($scores, function($a, $b) {
     return $a['EloScore'] - $b['EloScore'];
 });
