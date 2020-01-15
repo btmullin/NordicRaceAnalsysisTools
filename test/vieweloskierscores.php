@@ -47,5 +47,7 @@ echo "<br>";
 // Show Scores
 $result = RaceResultsQuery("SELECT Score, EventView.FullName from EloScore, EventView WHERE EventView.EventID=EloScore.EventID AND RacerID=$RacerID ORDER BY EventView.EventDate ASC");
 ResultToTable($result,"80%");
+echo "<br><br>";
+echo "<img src=\"eloscoregraph.php?rid=$RacerID\"><br><br>";
 
 ?>
