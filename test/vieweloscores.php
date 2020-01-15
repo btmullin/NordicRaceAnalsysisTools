@@ -21,11 +21,11 @@ $scores = array();
 while ($row = $data->fetch_assoc()) {
   $scores[] = $row;
 }
-echo "Here are the scores raw";
-echo var_dump($scores);
-//usort($scores, function($a, $b) {
-//    return $a['EloScore'] - $b['EloScore'];
-//});
+//echo "Here are the scores raw";
+//echo var_dump($scores);
+usort($scores, function($a, $b) {
+    return $a['Elo Score'] - $b['Elo Score'];
+});
 
 
 $width = "50%";
