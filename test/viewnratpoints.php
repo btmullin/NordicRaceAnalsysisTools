@@ -31,7 +31,7 @@ while ($row = $data->fetch_assoc()) {
   $scores[] = $row;
 }
 usort($scores, function($a, $b) {
-    return $b['NRAT Points'] - $a['NRAT Points'];
+    return $a['NRAT Points'] - $b['NRAT Points'];
 });
 
 
