@@ -15,14 +15,14 @@ include '../php/raceresultsutilities.php';
 
 // Show Team
 $data = RaceResultsQuery('SELECT OuterRacer.RacerID, FirstName, LastName,
-								(SELECT Score
-									FROM EloScore, Event 
-									WHERE EloScore.RacerID=OuterRacer.RacerID AND 
-										Event.EventID=EloScore.EventID
-									ORDER BY Event.EventDate DESC LIMIT 1) as "Elo Score"
-							FROM EloScore, Racer as OuterRacer
-							WHERE EloScore.RacerID=OuterRacer.RacerID
-							GROUP BY OuterRacer.RacerID ORDER BY "Elo Score" DESC');
+								(SELECT Points
+									FROM NRATPoints, Event 
+									WHERE NRATPoints.RacerID=OuterRacer.RacerID AND 
+										Event.EventID=NRATPoints.EventID
+									ORDER BY Event.EventDate DESC LIMIT 1) as "NRAT Points"
+							FROM NRATPoints, Racer as OuterRacer
+							WHERE NRATPoints.RacerID=OuterRacer.RacerID
+							GROUP BY OuterRacer.RacerID ORDER BY "NRAT Points" DESC');
 
 
 // for some reason the query is not sorting, so grab all results and sort ourselves
@@ -31,7 +31,7 @@ while ($row = $data->fetch_assoc()) {
   $scores[] = $row;
 }
 usort($scores, function($a, $b) {
-    return $b['Elo Score'] - $a['Elo Score'];
+    return $b['NRAT Points'] - $a['NRAT Points'];
 });
 
 
@@ -97,7 +97,7 @@ foreach ($scores as $row)
 			echo "<td>";
 			if ($racer_id != null)
 			{
-				echo '<a href="vieweloskierscores.php?rid='.$racer_id.'">'.$field.'</a>';
+				echo '<a href="viewskiernratpoints.php?rid='.$racer_id.'">'.$field.'</a>';
 			}
 			else
 			{
