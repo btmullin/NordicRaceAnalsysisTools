@@ -92,7 +92,7 @@ foreach ($scores as $row)
 			}
 			echo "</td>";
 		}
-		else if ($key == "Elo Score")
+		else if ($key == "NRAT Points")
 		{
 			echo "<td>";
 			if ($racer_id != null)
