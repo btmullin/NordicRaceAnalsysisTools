@@ -12,16 +12,18 @@ function DateLabelCallback($val)
 	// Get racers results
 	$RacerID = $_REQUEST["rid"];
 	
-	$q = "SELECT RacePoints, EventView.FullName, EventView.EventDate from NRATPoints, EventView WHERE EventView.EventID=NRATPoints.EventID AND RacerID=$RacerID ORDER BY EventView.EventDate ASC";
+	$q = "SELECT RacePoints, StartingPoints, EventView.FullName, EventView.EventDate from NRATPoints, EventView WHERE EventView.EventID=NRATPoints.EventID AND RacerID=$RacerID ORDER BY EventView.EventDate ASC";
 	// Build a pair of arrays
 	$result = RaceResultsQuery($q);
 	$x = array();
 	$y = array();
+    $sp = array();
 	$e = 1;
 	while ($row = $result->fetch_array())
 	{
 		$x[] = (new DateTime($row["EventDate"]))->getTimestamp();
 		$y[] = $row["RacePoints"];
+        $sp[] = $row["StartingPoints"];
 	}
 	
 	// Build the graph
@@ -83,12 +85,18 @@ function DateLabelCallback($val)
 	
 
 	// Plot the included results
-	$scatter = new ScatterPlot($y,$x);
+	$scatter = new ScatterPlot($sp,$x);
 	$scatter->mark->SetFillColor("blue");
 	$scatter->link->Show();
 	$scatter->link->SetWeight(2);
 	$scatter->link->SetColor("blue");
 	$graph->Add($scatter);
+	$spscatter = new ScatterPlot($y,$x);
+	$spscatter->mark->SetFillColor("red");
+	$spscatter->link->Show();
+	$spscatter->link->SetWeight(2);
+	$spscatter->link->SetColor("red");
+	$graph->Add($spscatter);
 		
 	// Build the graph
 	$graph->Stroke();
