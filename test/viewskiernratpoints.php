@@ -45,7 +45,7 @@ else
 
 echo "<br>";
 // Show Scores
-$result = RaceResultsQuery("SELECT Points, EventView.FullName from NRATPoints, EventView WHERE EventView.EventID=NRATPoints.EventID AND RacerID=$RacerID ORDER BY EventView.EventDate ASC");
+$result = RaceResultsQuery("SELECT RacePoints, StartingPoints, EventView.FullName from NRATPoints, EventView WHERE EventView.EventID=NRATPoints.EventID AND RacerID=$RacerID ORDER BY EventView.EventDate ASC");
 ResultToTable($result,"80%");
 echo "<br><br>";
 echo "<img src=\"nratpointsgraph.php?rid=$RacerID\"><br><br>";
