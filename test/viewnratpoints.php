@@ -15,7 +15,7 @@ include '../php/raceresultsutilities.php';
 
 // Show Team
 $data = RaceResultsQuery('SELECT OuterRacer.RacerID, FirstName, LastName,
-								(SELECT Points
+								(SELECT RacePoints
 									FROM NRATPoints, Event 
 									WHERE NRATPoints.RacerID=OuterRacer.RacerID AND 
 										Event.EventID=NRATPoints.EventID

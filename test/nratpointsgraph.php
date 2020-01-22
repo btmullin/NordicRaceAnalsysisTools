@@ -12,7 +12,7 @@ function DateLabelCallback($val)
 	// Get racers results
 	$RacerID = $_REQUEST["rid"];
 	
-	$q = "SELECT Points, EventView.FullName, EventView.EventDate from NRATPoints, EventView WHERE EventView.EventID=NRATPoints.EventID AND RacerID=$RacerID ORDER BY EventView.EventDate ASC";
+	$q = "SELECT RacePoints, EventView.FullName, EventView.EventDate from NRATPoints, EventView WHERE EventView.EventID=NRATPoints.EventID AND RacerID=$RacerID ORDER BY EventView.EventDate ASC";
 	// Build a pair of arrays
 	$result = RaceResultsQuery($q);
 	$x = array();
@@ -21,7 +21,7 @@ function DateLabelCallback($val)
 	while ($row = $result->fetch_array())
 	{
 		$x[] = (new DateTime($row["EventDate"]))->getTimestamp();
-		$y[] = $row["Points"];
+		$y[] = $row["RacePoints"];
 	}
 	
 	// Build the graph
