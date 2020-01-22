@@ -85,13 +85,13 @@ function DateLabelCallback($val)
 	
 
 	// Plot the included results
-	$scatter = new ScatterPlot($sp,$x);
+	$scatter = new ScatterPlot($y,$x);
 	$scatter->mark->SetFillColor("blue");
 	$scatter->link->Show();
 	$scatter->link->SetWeight(2);
 	$scatter->link->SetColor("blue");
 	$graph->Add($scatter);
-	$spscatter = new ScatterPlot($y,$x);
+	$spscatter = new ScatterPlot($sp,$x);
 	$spscatter->mark->SetFillColor("red");
 	$spscatter->link->Show();
 	$spscatter->link->SetWeight(2);
