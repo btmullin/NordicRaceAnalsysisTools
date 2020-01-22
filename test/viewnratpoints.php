@@ -31,7 +31,18 @@ while ($row = $data->fetch_assoc()) {
   $scores[] = $row;
 }
 usort($scores, function($a, $b) {
-    return $a['NRAT Points'] - $b['NRAT Points'];
+	if ($a['NRAT Points'] > $b['NRAT Points'])
+	{
+		return 1;
+	}
+	else if ($a['NRAT Points'] == $b['NRAT Points'])
+	{
+		return 0;
+	}
+	else
+	{
+		return -1;
+	}
 });
 
 
