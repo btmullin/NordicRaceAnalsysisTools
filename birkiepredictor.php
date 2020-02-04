@@ -129,7 +129,7 @@ function GetEliteWaveCutoff($event_id, $gender)
 					another.
 					</p>
 					<p>
-					Of course this is pretty tricking for many reasons.  Who
+					Of course this is pretty tricky for many reasons.  Who
 					missed the wax, who was sick, the races are approaching two
 					years apart now, one race might be a 5 kilometer classic race
 					and the 2019 Birkie Freestlye was clearly not.
