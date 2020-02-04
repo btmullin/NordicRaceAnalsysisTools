@@ -118,7 +118,7 @@ function GetEliteWaveCutoff($event_id, $gender)
 				?>
 					<p>
 					This tool finds all of the selected skier's results from the
-					2018/2019 or 2019/2020 racing seasons and uses those results
+					2019/2020 racing season and uses those results
 					to predict an equivalent performance at the 2019 50k Birkie
 					Freestyle race.
 					</p>
