@@ -20,7 +20,8 @@
  */
 
 // Set the date limit when going back for predictions 
-$event_date_limit = "2018-07-01";  // '18/'19 and later
+$event_date_limit = "2019-07-01";  // '19 and later
+//$event_date_limit = "2018-07-01";  // '18/'19 and later
 //$event_date_limit = "2017-07-01";  // '17/'18 season and later
 //$event_date_limit = "2016-07-01";  // '16/'17 and '17/'17 seasons
 //$event_date_limit = "2000-01-01";  // essentially forever
