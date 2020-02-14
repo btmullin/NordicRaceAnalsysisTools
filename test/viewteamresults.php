@@ -88,7 +88,7 @@ else
         $event_id = $event["EventID"];
         $event_info = RaceResultsQuery("select * From EventView WHERE EventID=$event_id");
         
-        echo "<b>".$event_info["FullName"]."</b><br>";
+        echo "".$event_info["FullName"]."<br>";
         
         // TODO - get the results
     }
