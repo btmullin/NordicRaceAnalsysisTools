@@ -86,9 +86,11 @@ else
     {
         // TODO - get the event information
         $event_id = $event["EventID"];
-        $event_info = RaceResultsQuery("select * From EventView WHERE EventID=$event_id");
+        $result = RaceResultsQuery("select * From EventView WHERE EventID=$event_id");
+        $event_info = $result->fetch_array();
+        $team_name = $event_info["Name"];
         
-        echo "".$event_info["FullName"]."<br>";
+        echo "<b>".$event_info["FullName"]."</b><br>";
         
         // TODO - get the results
     }
