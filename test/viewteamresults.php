@@ -115,7 +115,7 @@ else
             $gpr = RaceResultsQuery($gpq);
             $gp = $gpr->num_rows+1;
 
-            echo "<tr><td>$fn</td><td>$ln</td><td>$oap</td><td>$gp</td></tr>"
+            echo "<tr><td>$fn</td><td>$ln</td><td>$oap</td><td>$gp</td></tr>";
         }
         echo"</table>";
         echo "<br>";
