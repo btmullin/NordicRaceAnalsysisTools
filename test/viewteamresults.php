@@ -95,7 +95,7 @@ else
         // get the list of team members in the racer
         $racers = RaceResultsQuery("SELECT Result.RacerID, Racer.FirstName, Racer.LastName, Result.TimeInSec, Racer.Gender FROM Result, Affiliation, Racer WHERE EventID=$event_id AND TeamID=$team_id AND Result.RacerID=Affiliation.RacerID AND Racer.RacerID=Result.RacerID ORDER BY Result.TimeInSec");
         // for each racer, list their overall and gender place
-        echo "<table><tr><th>First Name</th><th>Last Name</th><th>Overall</th>Gender</th></tr>";
+        echo "<table style=\"width:400px\"><tr><th>First Name</th><th>Last Name</th><th>Overall</th><th>Gender</th></tr>";
         while ($racer = $racers->fetch_array())
         {
             $fn = $racer["FirstName"];
