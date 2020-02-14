@@ -79,7 +79,7 @@ else
 
 
     // get the list of events in the season for that team
-    $event_list = RaceResultsQuery("select Result.EventID FROM Result, Event WHERE RacerID in (select RacerID FROM Affiliation WHERE TeamID=$team_id) AND Event.EventDate >= '2019-06-01' AND Event.EventID=Result.EventID group by Result.EventID");
+    $event_list = RaceResultsQuery("select Result.EventID FROM Result, Event WHERE RacerID in (select RacerID FROM Affiliation WHERE TeamID=$team_id) AND Event.EventDate >= '2019-06-01' AND Event.EventID=Result.EventID group by Result.EventID ORDER BY Event.EventDate");
     
     // for each event
     foreach ($event_list as $event)
