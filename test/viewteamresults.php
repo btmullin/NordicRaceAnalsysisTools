@@ -90,7 +90,7 @@ else
         $event_info = $result->fetch_array();
         $team_name = $event_info["Name"];
         
-        echo "<b>".$event_info["FullName"]."</b><br>";
+        echo "<b>".$event_info["FullName"]." ".$event_info["EventDate"]."</b><br>";
         
         // get the list of team members in the racer
         $racers = RaceResultsQuery("SELECT Result.RacerID, Racer.FirstName, Racer.LastName, Result.TimeInSec, Racer.Gender FROM Result, Affiliation, Racer WHERE EventID=$event_id AND TeamID=$team_id AND Result.RacerID=Affiliation.RacerID AND Racer.RacerID=Result.RacerID ORDER BY Result.TimeInSec");
