@@ -100,7 +100,6 @@ else
         {
             $fn = $racer["FirstName"];
             $ln = $racer["LastName"];
-            echo "$fn $ln<br>";
 
             $time = $racer["TimeInSec"];
             $gender = $racer["Gender"];
