@@ -93,10 +93,9 @@ else
         echo "<b>".$event_info["FullName"]."</b><br>";
         
         // get the list of team members in the racer
-        $result = RaceResultsQuery("SELECT Result.RacerID, Racer.FirstName, Racer.LastName FROM Result, Affiliation, Racer WHERE EventID=$event_id AND TeamID=$team_id AND Result.RacerID=Affiliation.RacerID AND Racer.RacerID=Result.RacerID ORDER BY Result.TimeInSec");
-        $racers = $result->fetch_array();
+        $racers = RaceResultsQuery("SELECT Result.RacerID, Racer.FirstName, Racer.LastName FROM Result, Affiliation, Racer WHERE EventID=$event_id AND TeamID=$team_id AND Result.RacerID=Affiliation.RacerID AND Racer.RacerID=Result.RacerID ORDER BY Result.TimeInSec");
         // for each racer, list their overall and gender place
-        foreach ($racers as $racer)
+        while ($racer = $racers->fetch_array())
         {
             $fn = $racer["FirstName"];
             $ln = $racer["LastName"];
