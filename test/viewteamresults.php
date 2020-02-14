@@ -93,14 +93,31 @@ else
         echo "<b>".$event_info["FullName"]."</b><br>";
         
         // get the list of team members in the racer
-        $racers = RaceResultsQuery("SELECT Result.RacerID, Racer.FirstName, Racer.LastName FROM Result, Affiliation, Racer WHERE EventID=$event_id AND TeamID=$team_id AND Result.RacerID=Affiliation.RacerID AND Racer.RacerID=Result.RacerID ORDER BY Result.TimeInSec");
+        $racers = RaceResultsQuery("SELECT Result.RacerID, Racer.FirstName, Racer.LastName, Result.TimeInSec, Racer.Gender FROM Result, Affiliation, Racer WHERE EventID=$event_id AND TeamID=$team_id AND Result.RacerID=Affiliation.RacerID AND Racer.RacerID=Result.RacerID ORDER BY Result.TimeInSec");
         // for each racer, list their overall and gender place
+        echo "<table><tr><th>First Name</th><th>Last Name</th><th>Overall</th>Gender</th></tr>";
         while ($racer = $racers->fetch_array())
         {
             $fn = $racer["FirstName"];
             $ln = $racer["LastName"];
             echo "$fn $ln<br>";
+
+            $time = $racer["TimeInSec"];
+            $gender = $racer["Gender"];
+            
+            // calculate overall place
+            $oapq = "SELECT * FROM Result, Racer WHERE EventID=$event_id AND Racer.RacerID=Result.RacerID AND TimeInSec<$time";
+            $oapr = RaceResultsQuery($oapq);
+            $oap = $oapr->num_rows+1;
+            
+            // calculate gender place
+            $gpq = "SELECT * FROM Result, Racer WHERE EventID=$event_id AND Racer.RacerID=Result.RacerID AND Gender=\"$gender\" AND TimeInSec<$time";
+            $gpr = RaceResultsQuery($gpq);
+            $gp = $gpr->num_rows+1;
+
+            echo "<tr><td>$fn</td><td>$ln</td><td>$oap</td><td>$gp</td></tr>"
         }
+        echo"</table>";
         echo "<br>";
     }
 
